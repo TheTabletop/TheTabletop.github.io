@@ -29,7 +29,7 @@ Roll4Guild
 
 
         $scope.init = function () {
-            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+            $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
                     $scope.details = response.data;
 
@@ -42,6 +42,15 @@ Roll4Guild
     })
     .controller('searchCtrl', function($scope, $http) {
         $scope.name = 'searchCtrl';
+        $scope.init = function () {
+            $http.get("https://www.omdbapi.com/?t=Star+Wars")
+                .then(function successCallback(response){
+                    $scope.details = response.data;
+
+                }, function errorCallback(response){
+                    console.log("Unable to perform get request");
+                });
+        };
 
     })
     .controller('passNewCtrl', function($scope, $http) {
@@ -50,15 +59,7 @@ Roll4Guild
     })
     .controller('passVerCtrl', function($scope, $http) {
         $scope.name = 'passVerCtrl';
-        $scope.init = function () {
-            $http.get("http://www.omdbapi.com/?t=Star+Wars")
-                .then(function successCallback(response){
-                    $scope.details = response.data;
 
-                }, function errorCallback(response){
-                    console.log("Unable to perform get request");
-                });
-        };
 
     })
     .controller('inboxCtrl', function($scope, $http) {
@@ -230,7 +231,7 @@ Roll4Guild
     .controller('userWallCtrl', function($scope, $http) {
         $scope.name = 'userWallCtrl';
         $scope.init = function () {
-            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+            $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
                     $scope.details = response.data;
 
@@ -242,7 +243,7 @@ Roll4Guild
     .controller('groupProfCtrl', function($scope, $http) {
         $scope.name = 'groupProfCtrl';
         $scope.init = function () {
-            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+            $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
                     $scope.details = response.data;
 
@@ -254,7 +255,7 @@ Roll4Guild
     .controller('groupWallCtrl', function($scope, $http) {
         $scope.name = 'groupWallCtrl';
         $scope.init = function () {
-            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+            $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
                     $scope.details = response.data;
 
@@ -266,7 +267,7 @@ Roll4Guild
     .controller('editProfCtrl', function($scope, $http) {
         $scope.name = 'editProfCtrl';
         $scope.init = function () {
-            $http.get("http://www.omdbapi.com/?t=Star+Wars")
+            $http.get("https://www.omdbapi.com/?t=Star+Wars")
                 .then(function successCallback(response){
                     $scope.details = response.data;
 
