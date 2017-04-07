@@ -85,14 +85,14 @@ th, td {
 </style>
 </head>
 <body ng-controller="groupProfCtrl">
-
+<div data-ng-init="init()"></div>
 <div id="includedContent"></div>
 
 <div id="main">
 
   <span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
 
-<h1>[NAME_VALUE]</h1>
+<h1>{{details.Title}}</h1>
 <img src="groupPhoto.jpg" alt= "Group Photo" width="256" height="256">
 
 <table>
