@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html ng-app="Roll4Guild">
+<head>
+<title>userWall</title>
+
+<link rel="stylesheet" href="../../styles/css/styles.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+  <script src="../../scripts/app.js"></script>
+  <script>
+      $(function(){
+          $("#includedContent").load("generalNav.html");
+      });
+  </script>
+
+
+  <style>
+
+h1 {
+    color: black;
+    margin-left: 64px;
+}
+
+p {
+	color: black;
+	width: 1024px;
+}
+
+
+
+.center {
+    text-align: center;
+    color: black;
+}
+.container {
+    position: relative;
+    width: 100%;
+}
+
+</style>
+</head>
+<body ng-controller="userWallCtrl">
+<div data-ng-init="init()"></div>
+<div id="includedContent"></div>
+
+
+
+<div id="main">
+<span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
+
+<div class="center">
+  <h1>Gunnar Sroka</h1>
+</div>
+
+
+<div class="container">
+  <div class="center">
+    <img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" alt= "User Photo" width="256" height="256">
+  </div>
+</div>
+
+  <div class="container">
+    <div class="center">
+      <h3>Games:</h3>
+      <h4>Dungeons and Dragons 3.5 Ed.</h4>
+    </div>
+  </div>
+
+<h3>Bio</h3>
+<p>Smasher of Guitars, Writer of Scripts</p>
+</div>
+
+
+</body>
+</html>

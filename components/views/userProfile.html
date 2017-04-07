@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html ng-app="Roll4Guild">
+<head>
+<title>userProfile</title>
+
+<link rel="stylesheet" href="../../styles/css/styles.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+  <script src="../../scripts/app.js"></script>
+  <script>
+      $(function(){
+          $("#includedContent").load("generalNav.html");
+      });
+  </script>
+
+<style>
+
+h1 {
+
+    margin-left: 64px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.button1 {
+    background-color: white;
+    color: black;
+    border: 2px solid #4CAF50;
+}
+
+.button1:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.button2 {
+    background-color: white;
+    color: black;
+    border: 2px solid navy;
+}
+
+.button2:hover {
+    background-color: navy;
+    color: white;
+}
+
+.button3 {
+    background-color: white;
+    color: black;
+    border: 2px solid #f44336;
+}
+
+.button3:hover {
+    background-color: #f44336;
+    color: white;
+}
+</style>
+</head>
+<body ng-controller="userProfCtrl">
+<div data-ng-init="init()"></div>
+
+
+<div id="includedContent"></div>
+
+
+
+
+<div id="main">
+<span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
+
+<h1>{{details.Title}}</h1>
+<img ng-src="{{ details.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : details.Poster }}">
+
+<table>
+  <tr>
+    <td>Location:</td>
+    <td>Tatooine</td>
+  </tr>
+  <tr>
+    <td>Games Played:</td>
+    <td>{{details.Genre}}<br>Pathfinder<br>Dungeons and Dragons 5th Ed.</td>
+  </tr>
+  <tr>
+    <td>Groups:</td>
+    <td>{{details.Production}}<br>The Skywalkers</td>
+    <!--Eventually gonna link to the groups-->
+  </tr>
+</table>
+
+<h1>Bio:</h1>
+<p>{{details.Plot}}</p>
+
+
+<button class="button button1" onclick="location.href='userWall.html'">View Full Profile</button>
+<button class="button button2" onclick="location.href='inbox.html'">Message</button>
+<button class="button button3" ng-click="">Invite to Group</button>
+
+
+</div>
+
+
+</body>
+</html>
