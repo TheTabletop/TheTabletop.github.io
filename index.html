@@ -177,11 +177,11 @@
 <div id="container">
   <form>
     <label for="email">Email Address:</label>
-    <input type="text" id="email" name="email" required>
+    <input type="text" id="email" name="email" ng-model="email" required>
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
+    <input type="password" id="password" name="password" ng-model="password" required>
     <div id="lower">
-      <input type="submit" value="Login">
+      <input type="submit" value="Login" ng-click="submit()">
       <input type="submit" value="New Hero ">
       <input type="submit" value="Forgot?" onclick="location.href='components/views/resetPasswordVerify.html'">
     </div><!--/ lower-->
