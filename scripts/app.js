@@ -6,6 +6,34 @@ var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 Roll4Guild
     .controller('loginCtrl', function($scope, $http) {
 
+
+        $scope.showMeTheMoney = function(){
+            var data = {
+                "hero":$scope.email,
+                "key":$scope.password
+            };
+            console.log(data.hero);
+            console.log(data.key);
+        }
+
+       $scope.submit = function(){
+           var data = {
+               "hero":$scope.email,
+               "key":$scope.password
+           };
+           $http.post("www.todo.com/login", data)
+               .then(function successCallback(response){
+                   $rootScope.userID = response.uhid;
+               }, function errorCallback(response){
+               console.log("Credentials don't match known user!");
+               $scope.reset();
+           });
+       };
+
+        $scope.reset = function(){
+            $scope.email="";
+            $scope.password="";
+        };
     })
 
     .controller('navCtrl', function($scope){
