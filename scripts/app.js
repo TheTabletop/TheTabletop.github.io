@@ -66,6 +66,7 @@ Roll4Guild
                     console.log("Unable to perform get request");
                 });
             $scope.results = this.getGroups();
+            $scope.userInfo = this.getUsers();
         };
 
 		$scope.popups = {
@@ -92,6 +93,24 @@ Roll4Guild
                 },
             ];
         }
+
+        $scope.getUsers = function(){
+			return [
+				{
+                    "_id": "<uhid>",
+                    "playername": "Luke Skywalker",
+                    "heroname" : "LastJedi2017",
+                    "games": ["Pathfinder, D&D3.5"],
+                    "companions": ["list", "of", "friends"],
+                    "guilds": ["The Rebelz", "The Last Jedis"],
+	 //the below are only returned if session token relates to hero requested (i.e. you request yourself)
+            		"email": "skywalker@skynet.com",
+               		 "guild_invites": ["guild", "ugids", "who", "invited", "hero"],
+               		 "requested_guilds": ["guild", "ugids", "hero", "request", "to join"],
+               		 "ucid": "<ucid>"
+				}
+			];
+		}
 
 
     })
