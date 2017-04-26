@@ -5,6 +5,7 @@
 <title>userProfile</title>
 
 <link rel="stylesheet" href="../../styles/css/styles.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
@@ -96,32 +97,77 @@ th, td {
 <div id="main">
 <span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
 
-<h1>{{details.Title}}</h1>
-<img ng-src="{{ details.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : details.Poster }}">
+  <div class="w3-center">
+    <h1>{{details.Title}}</h1>
+  </div>
+  <div class="w3-center">
+    <button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
+    <button class="button button3" ng-click="">Invite to Group</button>
+  </div>
 
-<table>
-  <tr>
-    <td>Location:</td>
-    <td>Tatooine</td>
-  </tr>
-  <tr>
-    <td>Games Played:</td>
-    <td>{{details.Genre}}<br>Pathfinder<br>Dungeons and Dragons 5th Ed.</td>
-  </tr>
-  <td>Groups:</td>
-  <tr>
-    <td>{{details.Production}}<br>The Skywalkers</td>
-    <!--Eventually gonna link to the groups-->
-  </tr>
-</table>
+  <div class="w3-cell-row">
+   <div class="w3-cell">
+     <img ng-src="{{ details.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : details.Poster }}">
+   </div>
 
-<h1>Bio:</h1>
-<p>{{details.Plot}}</p>
+   <div class="w3-container w3-cell w3-cell-middle">
+     <h2>Hero Stats</h2>
+
+    <table class="w3-table-all w3-hoverable">
+      <thead>
+      <tr class="w3-light-grey">
+        <th>Hero Attributes</th>
+        <th>Hero Stats</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>Location</td>
+        <td>Tatooine</td>
+      </tr>
+      <tr>
+        <td>Games Played</td>
+        <td>Pathfinder, Dungeons and Dragons 3.5ed</td>
+      </tr>
+      <tr>
+        <td>Quest Log</td>
+        <td>{{details.Plot}}</td>
+      </tr>
+      <tr>
+        <td>Die of Choice</td>
+        <td>Blue d20</td>
+      </tr>
+    </table>
+    </div>
+  </div>
+
+  <div>
+    <h2>Guild Affiliates</h2>
+
+    <table class="w3-table-all w3-hoverable">
+      <thead>
+      <tr class="w3-light-grey">
+        <th>Guild Name</th>
+        <th>Guild Location</th>
+        <th>Guild System</th>
+        <th>Guild Link</th>
+      </tr>
+      </thead>
+        <tr ng-repeat="result in results">
+          <th>{{result.name}}</th>
+          <th>{{result.charter}}</th>
+          <th>{{result.games[0]}}</th>
+          <th>
+            <a href="groupProfile.html">Visit their Notice Board!</a>
+          </th>
+        </tr>
+
+    </table>
 
 
-<button class="button button1" onclick="location.href='userWall.html'">View Full Profile</button>
-<button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
-<button class="button button3" ng-click="">Invite to Group</button>
+  </div>
+
+
+
 <div ng-include="'../partials/messagePopup.html'" ng-if="popups.showMessagbox" onload="recipient=hero" style="position:absolute; top:15vh; left:25vw;"></div>
 
 </div>

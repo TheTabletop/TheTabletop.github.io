@@ -65,11 +65,34 @@ Roll4Guild
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
+            $scope.results = this.getGroups();
         };
 
 		$scope.popups = {
 			showMessagbox: false,
 		}
+
+        $scope.getGroups = function() {
+            return [
+                {
+                    '_id': "001",
+                    'games': ["Pathfinder"],
+                    'name': "The Rebelz",
+                    'charter': "What is a charter?",
+                    'members': ["Luke Skywalker", "Princess Leia", "Han Solo"],
+                    'last_session': {"ts": "<timestamp", "game": "<game>"}
+                },
+                {
+                    '_id': "002",
+                    'games': ["D&D 3.5"],
+                    'name': "The Last Jedis",
+                    'charter': "What is a charter?",
+                    'members': ["Luke skywalker", "Rey"],
+                    'last_session': {"ts": "<timestamp", "game": "<game>"}
+                },
+            ];
+        }
+
 
     })
     .controller('searchCtrl', function($scope, $http) {
@@ -467,12 +490,35 @@ Roll4Guild
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
+            $scope.results = this.getGroups();
         };
 
 		$scope.group = {name: 'Troopers', ugid:1138};
 		$scope.popups = {
 			showMessagbox: false,
-		}
+		};
+
+        $scope.getGroups = function() {
+            return [
+                {
+                    '_id': "001",
+                    'games': ["Pathfinder"],
+                    'name': "The Rebelz",
+                    'charter': "What is a charter?",
+                    'members': ["Luke Skywalker", "Princess Leia", "Han Solo"],
+                    'last_session': {"ts": "<timestamp", "game": "<game>"}
+                },
+                {
+                    '_id': "002",
+                    'games': ["D&D 3.5"],
+                    'name': "The Last Jedis",
+                    'charter': "What is a charter?",
+                    'members': ["Luke skywalker", "Rey"],
+                    'last_session': {"ts": "<timestamp", "game": "<game>"}
+                },
+            ];
+        }
+
 	})
     .controller('groupWallCtrl', function($scope, $http) {
         $scope.name = 'groupWallCtrl';
