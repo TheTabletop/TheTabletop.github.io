@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html ng-app="Roll4Guild">
 <head>
+<meta charset="utf-8">
 <title>groupProfile</title>
 
 <link rel="stylesheet" href="../../styles/css/styles.css">
+  <link rel="stylesheet" href="https://www.w3schools.com/lib/w3.css">
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
@@ -92,49 +94,85 @@ th, td {
 
   <span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
 
-<h1>{{details.Title}}</h1>
-<img src="http://orig09.deviantart.net/9858/f/2012/123/e/6/star_wars_as_rock_band_by_microkey-d4yehqv.jpg" alt= "Group Photo" width="256" height="256">
+ <div class="w3-container w3-green w3-margin w3-center">
+  <h1>{{details.Title}}</h1>
+ </div>
 
-<table>
-  <tr>
-    <td>Distance from you:</td>
-    <td>Tatooine</td>
-    <!--This is gonna take some work. Google Maps?-->
-  </tr>
-  <tr>
-    <td>{{details.Title}} has been meeting for</td>
-    <td>30 Years</td>
-  </tr>
-  <tr>
-    <td>Games Played:</td>
-    <td>Dungeon and Dragons 5th Ed<br>Star Wars Homebrew<br></td>
-  </tr>
-   <tr>
-    <td>Next Meeting:</td>
-    <td>[NEXT_VALUE]</td>
-  </tr>
-  <tr>
-    <td>Meeting Time:</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>Meeting Frequency:</td>
-    <td>Sundays</td>
-  </tr>
-  <tr>
-    <td>Number of Members:</td>
-    <td>6</td>
-  </tr>
-    <tr>
-    <td>Admin(s):</td>
-    <td>Darth Vader<br>Luke Skywalker</td>
-  </tr>
-</table>
+ <div class="w3-panel w3-border-top w3-border-bottom w3-border-green w3-center">
+  <img src="http://orig09.deviantart.net/9858/f/2012/123/e/6/star_wars_as_rock_band_by_microkey-d4yehqv.jpg" alt= "Group Photo" width="300" height="300">
+ </div>
+
+  <div class="w3-container">
+    <h2>Guild Members</h2>
+
+    <table class="w3-table-all w3-hoverable">
+      <thead>
+      <tr class="w3-light-grey">
+        <th>Hero</th>
+        <th>Character</th>
+        <th>Favorite Die</th>
+        <th>Profile</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>Mark Hamill</td>
+        <td>Luke Skywalker</td>
+        <td>d20</td>
+        <td>
+          <a href="userProfile.html">Profile</a>
+        </td>
+      </tr>
+      <tr>
+        <td>Carrie Fisher</td>
+        <td>Princess Leia</td>
+        <td>d12</td>
+        <td>N/A</td>
+      </tr>
+      <tr>
+        <td>Harrison Ford</td>
+        <td>Han Solo</td>
+        <td>d2</td>
+        <td>The TableTop Rules</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="w3-container">
+    <h2>Guild Info</h2>
+    <table class="w3-table-all">
+      <thead>
+      <tr class="w3-light-grey">
+        <th>Guild Info</th>
+        <th>Modus Operandi</th>
+      </tr>
+      </thead>
+      <tr>
+        <td>Meeting Location</td>
+        <td>Yavin 4</td>
+      </tr>
+      <tr>
+        <td>Games Played</td>
+        <td>Dungeons and Dragons 3.5ed, Star Wars Homebrew</td>
+      </tr>
+      <tr>
+        <td>Next Meeting</td>
+        <td>12/16/2017</td>
+      </tr>
+      <tr>
+        <td>Meeting Frequency</td>
+        <td>Every Holiday</td>
+      </tr>
+      <tr>
+        <td>Admins</td>
+        <td>Darth Vader</td>
+      </tr>
+    </table>
+  </div>
 
 
-  <button class="button button1" onclick="location.href='groupWall.html'">View Full Profile</button>
-  <button class="button button2" onclick="location.href='inbox.html'">Message</button>
-  <button class="button button3" onclick="">Invite to Group</button>
+  <button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
+  <button class="button button3" ng-click="">Request to Join</button>
+  <div ng-include="'../partials/messagePopup.html'" ng-if="popups.showMessagbox" onload="recipient=group" style="position:absolute; top:15vh; left:25vw;"></div>
 </div>
 
 

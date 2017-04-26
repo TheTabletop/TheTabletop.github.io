@@ -18,16 +18,28 @@
 	</script>
 
 	<style>
+	html, body {
+		margin: 0;
+		overflow: hidden;
+	}
+
 	a {
 		text-decoration: none;
 	}
 
 	.inboxContact, .inboxGroup {
 		padding: 2%;
+		width: 100px; max-width: 100px;
+		height: 150px; max-height: 150px;
+		overflow: hidden;
+		margin: 1%;
 	}
-	.inboxContact > a, .inboxGroup >a {
+	.inboxContact a, .inboxGroup a {
 	    font-size: 15px;
 	    color: #aaa;
+	}
+	.contactList {
+		overflow: hidden;
 	}
 	.messageSender, .messageBody, .messageDate{
 	    font-size: 15px;
@@ -48,21 +60,32 @@
 	}
 	.clearfix { display: inline-block; }
 	.inboxContainer {
-		margin: 1%;
-		padding: 1%;
-		width: 96%;
-		overflow-y: auto;
-		overflow-x: hidden;
+		margin: 1%; padding: 1%;
+		min-width: 96%;
 		position: absolute;
+	}
+	.profilePic {
+		border-radius: 50%; width: 90px;
+	}
+	.profileLabel {
+		min-width: 50%;
+		margin: 0%;
+	}
+	.profileLabel h3 {
+		margin-top: 0;
+		max-width: 50%;
 	}
 	#contactBrowser {
 		float: left;
 		top: 9%;
-		left: 2%;
+		left: 0%;
 		min-width: 20%;
 		max-width: 20%;
-		height: 88vh;
+		height: 100%;
 		position: absolute; 	/* reference point for children */
+		border-top: none;
+		border-left: none;
+		border-bottom: none;
 		/*background-color: #ecf2f5;*/
 		/*margin: 1%;*/
 	}
@@ -74,7 +97,8 @@
 		left: 25%;
 		min-width: 70%;
 		max-width: 70%;
-		/*height: 88vh;*/
+		min-height: 90%;
+		max-height: 90%;
 		position: absolute; 	/* reference point for children */
 		/*background-color: #ecf2f5;*/
 		/*margin: 1%;*/
@@ -85,152 +109,103 @@
 
 <body ng-controller="inboxCtrl">
 <div id="includedContent"></div>
-	<div ng-init="init()"></div>
-
+	<div ng-init="init(undefined, undefined)"></div>
 
 	<div id="main" class="clearfix">
 		<div id="navIcon">
 			<span ng-controller="navCtrl" style="font-size:30px;cursor:pointer;" ng-click="openNav()">&#9776; Navigation</span>
 		</div>
 
-		<div id="contactBrowser">
-			<!-- Place where user can find someone to contact -->
-			<div id="contactSearch" class="inboxContainer" style="position:absolute; top:0%; max-height:10vh; overflow:hidden;">
+		<div id="contactBrowser" class="roundBorder">
+			<!-- Search bar where user can find someone to contact -->
+			<div id="contactSearch" class="inboxContainer" style="position:absolute; top:0%; max-height:10%; overflow:hidden;">
 				<form>
-					<input type="text" list="contactsList" placeholder="search contacts" style="width:85%;" ng-model="name" ng-keypress="($event.charCode==13)? init(name) : return"/>
-					<datalist id="contactsList">
-						<option ng-repeat="contact in contacts" value="{{contact.name}}">
-					</datalist>
+					<input type="text" list="contactsList" placeholder="search contacts" style="width:85%;" ng-model="nameQuery"/>
 				</form>
 			</div>
 
-			<!-- List of people with whom there has been recent communication -->
-			<div id="inboxContacts" class="inboxContainer"  style="top:5%; max-height:50vh; background-color:none;">
-				<h2> Recent </h2>
-				<div class="inboxContact clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
+			<div id="startNewConversation" class="inboxContainer" style="top:4%; max-height:5%; min-width:85%; max-width:85%; overflow:hidden;">
+				<button class="center" ng-if="!currConversation.isNew" ng-click="init( getNewConversation(), undefined)">New Conversation</button>
+				<button class="clickWarning center" ng-if="currConversation.isNew" ng-click="init( undefined, undefined)">Close</button>
+			</div>
+
+			<!-- List of contacts used to start NEW conversation -->
+			<div id="inboxContacts" class="contactList inboxContainer"  style="top:7%; min-height:90%; max-width:10%;" ng-if="currConversation.isNew">
+				<h2> Companions </h2>
+				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
+					<div class="inboxContact clearfix" ng-repeat="contact in contacts | filter:{participants:nameQuery}" ng-click="currConversation.includeParticipants(contact.participants)">
+						<a href="#">
+							<div style="">
+								<div style="margin:">
+									<img class="profilePic" ng-src="{{ contact.profilePic ? contact.profilePic : default.profilePic }}" alt=""/>
+								</div>
+								<div class="profileLabel">
+									<h3 class="center">{{ listNames(contact.participants) | limitTo: 20 }}</h3>
+								</div>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-								<h3>Bilbo Baggins</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxContact clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-								<h3>Bilbo Baggins</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxContact clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-								<h3>Bilbo Baggins</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxContact clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-								<h3>Bilbo Baggins</h3>
-							</div>
-						</div>
-					</a>
+						</a>
+					</div>
 				</div>
 			</div>
-			<div id="inboxGroups" class="inboxContainer"  style="top:62%; max-height:30vh; background-color:none;">
+			<!-- List of people with whom there is an EXISTING conversation -->
+			<div id="inboxConversations" class="contactList inboxContainer"  style="top:7%; min-height:50%; max-width:10%;" ng-hide="currConversation.isNew">
+				<h2> Recent </h2>
+				<div class="inboxContainer scrollVertical" style="top:50px; max-height:70%;">
+					<div class="inboxContact clearfix" ng-repeat="conversation in conversations.concat(uncontactedContacts) | filter:{participants:nameQuery}" ng-click="init( conversation, undefined)">
+						<a href="#">
+							<div style="">
+								<div style="margin:">
+									<img class="profilePic" ng-src="{{ conversation.profilePic ? conversation.profilePic : default.profilePic }}" alt=""/>
+								</div>
+								<div class="profileLabel">
+									<h3 class="center">{{ listNames(conversation.participants) | limitTo: 20 }}</h3>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div id="inboxGroups" class="contactList inboxContainer" style="top:48%; min-height:95%;"  ng-hide="currConversation.isNew">
 				<!-- List of Groups the user is a member of -->
-				<h2> Groups </h2>
-				<div class="inboxGroup clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
+				<h2> Guilds </h2>
+				<div class="inboxContainer scrollVertical" style="top:50px; max-height:40%;">
+					<div class="inboxGroup clearfix" ng-repeat="group in groups | filter:{participants:nameQuery}" ng-click="init( group, undefined)">
+						<a href="#">
+							<div style="">
+								<div>
+									<img class="profilePic" ng-src="{{ group.groupPic ? group.groupPic : default.groupPic }}" alt=""/>
+								</div>
+								<div class="profileLabel">
+									<h3 class="center">{{ listNames(group.participants) }}</h3>
+								</div>
 							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-							<h3>Circle of Elrond</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxGroup clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-							<h3>Circle of Elrond</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxGroup clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-							<h3>Circle of Elrond</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxGroup clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-							<h3>Circle of Elrond</h3>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="inboxGroup clearfix">
-					<a href="#">
-						<div style="">
-							<div style="margin:">
-								<img src="https://pbs.twimg.com/profile_images/435608617840963584/f1ss6Ke2_400x400.jpeg" style="float:left; clear:left; border-radius: 50%; width:40%;" alt="Bilbo Baggins"/>
-							</div>
-							<div style="float:right; clear:right; width:50%; max-height:50vh; margin:5%;">
-							<h3>Circle of Elrond</h3>
-							</div>
-						</div>
-					</a>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<div id="mailBrowser" class="clearfix" style="max-height:90vh;">
-			<!-- List of messages sent to the user -->
-			<div class="inboxContainer" style="bottom:75vh; margin:1%;">
-			<h2> {{ listNames() }} </h2>
+			<!-- List of participants in conversation -->
+			<div class="inboxContainer" style="top:0; margin:1%;">
+				<div id="existingConversationParticipants" ng-if="!currConversation.isNew">
+					<h2> {{ listNames(currConversation.participants) }} </h2>
+				</div>
+				<!-- <div id="newConversationParticipants"> -->
+				<div id="newConversationParticipantList" style="" ng-if="currConversation.isNew">
+					<div id="newConversationParticipant" style="display:inline-block; margin:0 5px 0 5px" ng-repeat="name in currConversation.participants">
+						<button class="newParticipant" style="float:left;"><h2 style="margin:0;"> {{ name }} </h2></button>
+						<button style="float:left;" ng-click="currConversation.removeParticipant(name)">
+							<h2 style="margin:0;">X</h2>
+						</button>
+					</div>
+				</div>
 			</div>
-			<div id="messageHistory" class="inboxContainer scrollVertical" style="bottom:25vh; max-height:50vh; padding:1%;">
-				<div class="inboxMessage roundBorder scrollVertical clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in messages" ng-click="findPigeons()">
+			<!-- List of messages sent to the user -->
+			<div id="messageHistory" class="inboxContainer scrollVertical" style="bottom:25vh; max-height:50vh; padding:1%;" ng-hide="currConversation.isNew">
+				<div class="inboxMessage roundBorder scrollVertical clearfix" style="width:98%; padding:1%; margin: .3% 0 .3% 0; background-color:#fff;" ng-repeat="msg in currConversation.messages">
 					<div class="messageSender"><b>{{msg.sender}}&nbsp&nbsp</b></div>
-					<div class="messageBody" style="white-space: pre-line;">{{msg.body}}</div>
+					<div class="messageBody" style="white-space: pre-line;">{{msg.body? msg.body : "(no message)"}}</div>
 					<div class="messageDate" style="float:right">{{msg.date}}</div>
 				</div>
 			</div>
@@ -239,10 +214,12 @@
 				<form class="roundBorder" style="min-height:100%; max-height:100%; padding:1%; background-color:#fff;">
 					<!-- Place where message body is entered -->
 					<div id="msgEditor" class="clearfix" style="bottom:0; min-width:97%;">
-						<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." style="width:100%; max-width:100%; min-height:10vh;  margin:1%;" required ng-model="newMessage"></textarea>
+						<!-- <input id="msgRecipient" ng-if="" type="text" name="msgRecipient" placeholder="Add someone to the conversation..."list="msgConstacts" style="min-width:50%;" ng-submit="includeParticipant(currConversation)"> -->
+
+						<textarea id="msgText" class="roundBorder" name="msgText" placeholder="Message..." style="width:100%; max-width:100%; min-height:10vh;  margin:1%;" ng-model="newMessage.body"></textarea>
 					</div>
 
-					<input type="submit" value="Send">
+					<input type="submit" value="Send" ng-click="sendMessage()"></input>
 				</form>
 
 			</div>
