@@ -1,0 +1,50 @@
+<style>
+	table {
+	    border-collapse: collapse;
+	    width: 100%;
+	}
+
+	th, td {
+	    text-align: left;
+	    padding: 8px;
+	}
+</style>
+
+<!-- Could be used anywhere in app to get more info about someone -->
+<div class="roundBorder scrollVertical" style="max-height:60vh; width:40vw; padding:1%; background-color:#fff;">
+	<button class="cornerButton clickWarning" ng-click="userPopup.hide()">X</button>
+
+	<h1>{{userPopup.user.heroname}}</h1>
+	<img ng-src="{{ userPopup.user.profilePic=='N/A' ? 'http://placehold.it/150x220&text=N/A' : details.Poster }}">
+
+	<table>
+	  <tr>
+	    <td>Location:</td>
+	    <td>Tatooine</td>
+	  </tr>
+	  <tr>
+	    <td>Games Played:</td>
+	    <td>{{details.Genre}}
+			<ul>
+				<li ng-repeat="game in userPopup.user.games">{{game}}</li>
+			</ul>
+		</td>
+	  </tr>
+	  <td>Groups:</td>
+	  <tr>
+	    <td>{{details.Production}}<br>The Skywalkers</td>
+	    <!--Eventually gonna link to the groups-->
+	  </tr>
+	</table>
+
+	<h1>Bio:</h1>
+	<p>{{userPopup.user.backstory}}</p>
+
+
+	<button class="button button1" onclick="location.href='userWall.html'">View Full Profile</button>
+	<button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
+	<button class="button button3" ng-click="">Invite to Group</button>
+	<div ng-include="'../partials/messagePopup.html'" ng-if="popups.showMessagbox" onload="recipient=hero" style="position:absolute; top:15vh; left:25vw;"></div>
+
+	</div>
+</div>

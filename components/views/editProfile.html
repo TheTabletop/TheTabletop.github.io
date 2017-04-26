@@ -1,9 +1,68 @@
 <!doctype html>
 
 <html lang="en">
+<style>
+form {
+    border: 3px solid #f1f1f1;
+}
+
+input[type=text], input[type=password] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.cancelbtn {
+    width: 100%;
+    padding: 10px 18px;
+    background-color: #f44336;
+}
+
+.container {
+    padding: 16px;
+}
+
+span.psw {
+    float: right;
+    padding-top: 16px;
+}
+
+h2{
+	text-align: center;
+	font-size:72px;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {
+    span.psw {
+       display: block;
+       float: none;
+    }
+    .cancelbtn {
+       width: 100%;
+    }
+}
+</style>
 <head>
 	<meta charset="utf-8">
-	<title>VIEW</title>
+	<title>Edit Profile</title>
 	<link rel="stylesheet" href="../../styles/css/styles.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
@@ -17,5 +76,32 @@
 	<!-- <script src="js/scripts.js"></script> -->
 	<div id="navigation"></div>
 	<div class="main_content"></div>
+
+	<h2>Create your account!</h2>
+
+	<form action="/action_page.php">
+	  <div class="container">
+	    <label><b>Username</b></label>
+	    <input type="text" placeholder="Enter Username" name="uname" required>
+
+	    <label><b>Password</b></label>
+	    <input type="password" placeholder="Enter Password" name="psw" required>
+
+	   	<label><b>Email</b></label>
+	    <input type="text" placeholder="For recovery only" name="email" required>
+
+	    <label><b>Games you play (Optional)</b></label>
+	    <input type="text" placeholder="What games do you play? [Free entry vs Dropdown?]" name="games">
+
+	    <label><b>Bio (Optional)</b></label>
+	    <input type="text" placeholder="Tell everyone about yourself!" name="bio">
+	        
+	    <button type="submit">Login</button>
+	    <button type="button" class="cancelbtn">Cancel</button>
+	  </div>
+	  <div class="container" style="background-color:#f1f1f1">
+	  </div>
+	</form>
+
 </body>
 </html>

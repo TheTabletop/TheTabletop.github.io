@@ -1,0 +1,13 @@
+<!-- Could be used anywhere in app to get more info about someone -->
+<div class="roundBorder scrollVertical" style="max-height:60vh; width:40vw; padding:1%; background-color:#fff;">
+	<button class="cornerButton clickWarning" ng-click="groupPopup.hide()">X</button>
+	<h3>{{groupPopup.group.name}}</h3>
+	<p>Members:</p>
+	<ul>
+		<li ng-repeat="member in groupPopup.group.members">{{member}}</li>
+	</ul>
+	<p>Games:</p>
+	<ul>
+		<li ng-repeat="game in groupPopup.group.games">{{game}}</li>
+	</ul>
+</div>

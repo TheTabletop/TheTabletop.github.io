@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 -<html ng-app="Roll4Guild">
 <head>
+<meta charset="utf-8">
 <title>searchScreen</title>
 <link rel="stylesheet" href="../../styles/css/styles.css">
 
@@ -8,38 +9,52 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
-    <script src="../../scripts/app.js"></script>
-    <script>
-        $(function(){
-            $("#includedContent").load("generalNav.html");
-        });
-    </script>
+<script src="../../scripts/app.js"></script>
+<script>
+$(function(){
+$("#includedContent").load("generalNav.html");
+});
+</script>
 <style>
 .groupButton {
-  border-radius: 50px 0px 0px 50px;
+	border-radius: 50px 0px 0px 50px;
 }
 .userButton {
-  border-radius: 0px 50px 50px 0px;
+	border-radius: 0px 50px 50px 0px;
+}
+.userResults {
+	float: left;
+	width: 20%;
 }
 
 </style>
 </head>
 
 <body ng-controller="searchCtrl">
-<div data-ng-init="init()"></div>
-<div id="includedContent"></div>
+	<div data-ng-init="init()"></div>
+	<div id="includedContent"></div>
 
-<div id="main">
+	<div id="main">
 
-  <span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
-  <center><div id="searchField">
-    <h2>Search for a:</h2>
-    <button class="groupButton">Groups</button>
-    <button class="userButton">Users</button>
-  </div></center>
-</div>
+		<span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
+		<center><div id="searchField">
+		<h2>Search for:</h2>
+		<button class="groupButton" ng-click="searchCriteria.mode='groups'; search();">Groups</button>
+		<button class="userButton" ng-click="searchCriteria.mode='users'; search();">Users</button>
+		</div></center>
+
+		<div id="searchResults" style="margin:1%;">
+			<a href="userProfile.html">
+				<button class="userResults" style="margin:1%;" ng-repeat="result in results" ng-if="searchCriteria.mode==='users'">{{result.heroname}}</button>
+			</a>
+
+			<a href="groupProfile.html">
+				<button class="groupResults" style="margin:1%;" ng-repeat="result in results" ng-click="groupPopup.show(result)" ng-if="searchCriteria.mode==='groups'">{{result.name}}</button>
+			</a>
+		</div>
+	</div>
 
 
 
