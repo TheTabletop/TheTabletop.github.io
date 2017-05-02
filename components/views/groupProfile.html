@@ -104,9 +104,11 @@ th, td {
     </div>
     <div class="w3-cell-bottom">
       <button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
-      <button class="button button3" ng-click="">Request to Join</button>
+      <button class="button button3" ng-click="getCurrentUser()">Get User</button>
     </div>
   </div>
+
+  <p>{{name}}</p>
 
   <div class="w3-container">
     <h2>Guild Members</h2>
