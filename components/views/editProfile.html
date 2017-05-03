@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en">
+<html lang="en" ng-app="Roll4Guild">
 <style>
 form {
     border: 3px solid #f1f1f1;
@@ -72,32 +72,39 @@ h2{
 	<script src="../../scripts/app.js"></script>
 </head>
 
-<body>
+<body ng-controller="editProfCtrl">
 	<!-- <script src="js/scripts.js"></script> -->
 	<div id="navigation"></div>
 	<div class="main_content"></div>
 
-	<h2>Create your account!</h2>
+	<h2>Create your Hero!</h2>
 
-	<form action="/action_page.php">
+	<form>
 	  <div class="container">
-	    <label><b>Username</b></label>
-	    <input type="text" placeholder="Enter Username" name="uname" required>
+	    <label><b>Hero Name</b></label>
+	    <input type="text" placeholder="Enter Username"  ng-model="uname" required>
 
 	    <label><b>Password</b></label>
-	    <input type="password" placeholder="Enter Password" name="psw" required>
+	    <input type="password" placeholder="Enter Password"  ng-model="psw" required>
 
 	   	<label><b>Email</b></label>
-	    <input type="text" placeholder="For recovery only" name="email" required>
+	    <input type="text" placeholder="For recovery only"  ng-model="email" required>
 
-	    <label><b>Games you play (Optional)</b></label>
-	    <input type="text" placeholder="What games do you play? [Free entry vs Dropdown?]" name="games">
+	    <label><b>Games you play (Select all that Apply)</b></label>
+		 <br>
+		  <br>
+		  <label ng-repeat="game in games">
+		  <input type="checkbox" name="{{game}}" value="{{game}}">
+			 {{game}}
+		  </label>
+		  <br>
+		  <br>
 
 	    <label><b>Bio (Optional)</b></label>
-	    <input type="text" placeholder="Tell everyone about yourself!" name="bio">
+	    <input type="text" placeholder="Tell everyone about yourself!"  ng-model="bio">
 	        
-	    <button type="submit">Login</button>
-	    <button type="button" class="cancelbtn">Cancel</button>
+	    <button type="submit" ng-click="onSubmit()">Create</button>
+	    <button type="button" class="cancelbtn" onclick="window.location='../../index.html';return false;">Cancel</button>
 	  </div>
 	  <div class="container" style="background-color:#f1f1f1">
 	  </div>

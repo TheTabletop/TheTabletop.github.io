@@ -11,6 +11,55 @@ Roll4Guild.config(['$httpProvider', function ($httpProvider) {
     $httpProvider.defaults.headers.patch = {};
 }]);
 
+
+Roll4Guild
+.factory('UserService', function() {
+    var user;
+    return {
+        getUser: function () {
+            user = localStorage.getItem("Username");
+            return user;
+        },
+
+        setUser: function (UID) {
+            user = UID;
+            localStorage.setItem("Username", user);
+        }
+    }
+})
+
+.factory('GroupService', function() {
+    var group;
+    return {
+        getGroup: function () {
+            group = localStorage.getItem("Groupname");
+            return group;
+        },
+
+        setGroup: function (GID) {
+            group = GID;
+            localStorage.setItem("Groupname", group);
+        }
+    }
+});
+
+
+Roll4Guild.run(function($rootScope) {
+	console.log('loading app');
+	$rootScope.user = {};
+	$rootScope.games = [
+		"Dungeons and Dragons",
+		"Magic the Gathering",
+		"7 Wonders",
+		"Coup",
+		"Settlers of Catan",
+		"Citadels",
+		"Betrayal at the House on the Hill",
+		"Secret Hitler",
+	];
+	$rootScope.uhid = "";
+});
+
 Roll4Guild
 .factory('UserService', function() {
     var user;
@@ -101,8 +150,8 @@ Roll4Guild
 
 
     })
-    .controller('userProfCtrl', function($scope, $http, UserService, $rootScope) {
 
+    .controller('userProfCtrl', function($scope, $http, UserService, $rootScope) {
         $scope.init = function () {
         	$rootScope.uhid = UserService.getUser();
             console.log("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/" + $rootScope.uhid);
@@ -113,14 +162,19 @@ Roll4Guild
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
+            $scope.results = this.getGroups();
+            $scope.userInfo = this.getUsers();
+			$scope.name = UserService.getUser();
         };
 
 		$scope.popups = {
 			showMessagbox: false,
 		}
+
     })
 
 
+	
 	.controller('searchCtrl', function($scope, $http, $window, $rootScope, UserService, GroupService) {
         $scope.name = 'searchCtrl';
 
@@ -143,6 +197,7 @@ Roll4Guild
 
         $scope.init = function () {
 			// console.log("$rootScope.user.name", $rootScope.user.name);
+
 			$scope.searchCriteria.mode = 'users';
 			for(var i in $rootScope.games) {
 				$scope.searchCriteria.games[$rootScope.games[i]] = false;
@@ -153,6 +208,7 @@ Roll4Guild
 		$scope.search = function() {
 			// get search results (i.e. relevant groups) from back-end
 			// get search results (i.e. relevant users) from back-end
+
 			this.updateResults = function(resultType) {
 				var users;
 				$http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/search/"+resultType)
@@ -197,6 +253,7 @@ Roll4Guild
 				});
 				return users;
 			}
+
 
 			switch($scope.searchCriteria.mode) {
 				case 'users':
@@ -549,6 +606,7 @@ Roll4Guild
         };
     })
 
+
     .controller('editProfCtrl', function($scope, $http, $rootScope, UserService, $window) {
 
     	// On Load we want to grab the array of games for the checkbox list, then initialize some scope variables
@@ -598,9 +656,35 @@ Roll4Guild
 
 
     .controller('editGuildCtrl', function($scope, $http, $rootScope) {
+
 		window.onload = function() {
             $scope.games = $rootScope.games;
         };
+
+		$scope.onSubmit = function(){
+				$scope.data = {
+                    "email": "bouldersAre4Pussies@aol.com",
+                    "key": "protein",
+                    "playername": "Dwayne Johnson",
+                    "heroname": "The Rock",
+                    "games": ["Settlers of Your Mom"],
+                    "backstory": "Look at my Bulging muscles"
+                };
+				$scope.data = JSON.stringify($scope.data);
+
+            $http({
+                method: 'POST',
+                url: 'http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/create',
+				data: $scope.data,
+                dataType: "text",
+                contentType : "text/plain"
+            }).then(function mySucces(response) {
+                	$rootScope.uhid = response.data.uhid;
+            	}, function myError(response) {
+              	  $scope.myWelcome = response.statusText;
+                	console.log("LOL");
+            	});
+		}
     })
 
 	// Services
@@ -615,7 +699,9 @@ Roll4Guild
 	})
 
 	Roll4Guild
+
 	.filter('SearchFilter', function(filterFilter, numberFilter) {
+
 		return function(results, searchCriteria) {
 			function meetsGameCriteria(result) {
 				var games = searchCriteria.getGames();
@@ -630,7 +716,9 @@ Roll4Guild
 				return true;
 			}
 			function meetsDistanceCriteria(result) {
+
 				return searchCriteria.maxDistance? numberFilter(result.distance, 1) <= numberFilter(searchCriteria.maxDistance, 4) : true;
+
 			}
 			function filterByTextualQuery(filteredResults) {
 				return filterFilter(filteredResults, searchCriteria.textualQuery);
