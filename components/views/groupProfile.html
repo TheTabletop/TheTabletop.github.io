@@ -98,9 +98,17 @@ th, td {
   <h1>{{details.Title}}</h1>
  </div>
 
- <div class="w3-panel w3-border-top w3-border-bottom w3-border-green w3-center">
-  <img src="http://orig09.deviantart.net/9858/f/2012/123/e/6/star_wars_as_rock_band_by_microkey-d4yehqv.jpg" alt= "Group Photo" width="300" height="300">
- </div>
+  <div class="w3-cell-row">
+    <div class="w3-cell-middle w3-panel w3-border-top w3-border-bottom w3-border-green w3-center">
+      <img src="http://orig09.deviantart.net/9858/f/2012/123/e/6/star_wars_as_rock_band_by_microkey-d4yehqv.jpg" alt= "Group Photo" width="300" height="300">
+    </div>
+    <div class="w3-cell-bottom">
+      <button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
+      <button class="button button3" ng-click="getCurrentUser()">Get User</button>
+    </div>
+  </div>
+
+  <p>{{name}}</p>
 
   <div class="w3-container">
     <h2>Guild Members</h2>
@@ -170,8 +178,6 @@ th, td {
   </div>
 
 
-  <button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
-  <button class="button button3" ng-click="">Request to Join</button>
   <div ng-include="'../partials/messagePopup.html'" ng-if="popups.showMessagbox" onload="recipient=group" style="position:absolute; top:15vh; left:25vw;"></div>
 </div>
 
