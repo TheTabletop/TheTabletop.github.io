@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 -<html ng-app="Roll4Guild">
 <head>
@@ -42,6 +43,13 @@ $("#includedContent").load("generalNav.html");
 	min-height: 200px; height:200px; max-height: 30vh;
 	text-align:left;
 }
+.result h2, .result p {
+	margin: 0;
+}
+.result ul {
+	padding-left: 15px;
+}
+
 .result:visited, .result:link {
 	text-decoration: none;
 	color: gray;
@@ -70,8 +78,8 @@ input[type=number] {
 		<span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
 		<center><div id="searchField">
 		<h2>Search for:</h2>
-		<button class="groupButton" ng-click="searchCriteria.mode='groups'; search();">Groups</button>
-		<button class="userButton" ng-click="searchCriteria.mode='users'; search();">Users</button>
+		<button class="groupButton" ng-click="searchCriteria.mode='groups'; search();">Guilds</button>
+		<button class="userButton" ng-click="searchCriteria.mode='users'; search();">Heroes</button>
 		</div></center>
 
 		<form id="searchCriteria" style="float:left; width:250px; height:90%;">
@@ -79,7 +87,7 @@ input[type=number] {
 				<div class="filterLabel">Max. distance:</div>
 				<div class="filterBody">
 					<div>
-						<input type="number" min="1" placeholder="&infin;" ng-model="searchCriteria.maxDistance"/>
+						<input type="text" placeholder="&infin;" style="width:50px;" ng-model="searchCriteria.maxDistance"/>
 						miles
 					</div>
 				</div>
@@ -113,7 +121,7 @@ input[type=number] {
 				<a class="result" href="#" ng-if="searchCriteria.mode==='users'" ng-click="visitUserProfile(result.heroname)">
 					<div>
 						<h2>{{result.heroname}}</h2>
-						<p>Games:</p>
+						<p>({{result.distance | number:1}} miles away)</p>
 						<ul>
 							<li ng-repeat="game in result.games.slice(0,3)">{{game}}</li>
 						</ul>
@@ -122,7 +130,7 @@ input[type=number] {
 				<a class="result" href="#" ng-if="searchCriteria.mode==='groups'" ng-click="visitGroupProfile(result.name)">
 					<div>
 						<h2>{{result.name}}  ({{result.members.length}})</h2>
-						<p>Games:</p>
+						<p>({{result.distance | number:1}} miles away)</p>
 						<ul>
 							<li ng-repeat="game in result.games.slice(0,3)">{{game}}</li>
 						</ul>

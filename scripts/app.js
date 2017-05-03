@@ -3,6 +3,62 @@
 // Defining Angular app model with all other dependent modules
 var Roll4Guild = angular.module('Roll4Guild',["ngRoute"]);
 
+Roll4Guild.config(['$httpProvider', function ($httpProvider) {
+    //Reset headers to avoid OPTIONS request (aka preflight)
+    $httpProvider.defaults.headers.common = {};
+    $httpProvider.defaults.headers.post = {};
+    $httpProvider.defaults.headers.put = {};
+    $httpProvider.defaults.headers.patch = {};
+}]);
+
+
+Roll4Guild
+.factory('UserService', function() {
+    var user;
+    return {
+        getUser: function () {
+            user = localStorage.getItem("Username");
+            return user;
+        },
+
+        setUser: function (UID) {
+            user = UID;
+            localStorage.setItem("Username", user);
+        }
+    }
+})
+
+.factory('GroupService', function() {
+    var group;
+    return {
+        getGroup: function () {
+            group = localStorage.getItem("Groupname");
+            return group;
+        },
+
+        setGroup: function (GID) {
+            group = GID;
+            localStorage.setItem("Groupname", group);
+        }
+    }
+});
+
+
+Roll4Guild.run(function($rootScope) {
+	console.log('loading app');
+	$rootScope.user = {};
+	$rootScope.games = [
+		"Dungeons and Dragons",
+		"Magic the Gathering",
+		"7 Wonders",
+		"Coup",
+		"Settlers of Catan",
+		"Citadels",
+		"Betrayal at the House on the Hill",
+		"Secret Hitler",
+	];
+	$rootScope.uhid = "";
+});
 
 Roll4Guild
 .factory('UserService', function() {
@@ -46,35 +102,29 @@ Roll4Guild.run(function($rootScope) {
 		"Settlers of Catan",
 		"Citadels",
 		"Betrayal at the House on the Hill",
-		"Secret Hitler",
+		"Secret Hitler"
 	];
 	$rootScope.uhid = "";
 });
 
 Roll4Guild
-    .controller('loginCtrl', function($scope, $http) {
+    .controller('loginCtrl', function($scope, $http, $rootScope, UserService, $window) {
 
-
-        $scope.showMeTheMoney = function(){
-            var data = {
-                "hero":$scope.email,
-                "key":$scope.password
-            };
-            console.log(data.hero);
-            console.log(data.key);
-        }
-
+    	// Posts to the database to login a hero.  Routes to their profile if user exists
        $scope.submit = function(){
            var data = {
-               "hero":$scope.email,
-               "key":$scope.password
+               "hero": $scope.email,
+               "key": $scope.password
            };
-           $http.post("www.todo.com/login", data)
+           $http.post("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/login", JSON.stringify(data))
                .then(function successCallback(response){
-                   $rootScope.userID = response.uhid;
+                   $rootScope.uhid = response.uhid;
+                   UserService.setUser($rootScope.uhid);
+                   $window.location = "userProfile.html";
                }, function errorCallback(response){
                console.log("Credentials don't match known user!");
                $scope.reset();
+               $window.location = "index.html";
            });
        };
 
@@ -100,13 +150,15 @@ Roll4Guild
 
 
     })
-    .controller('userProfCtrl', function($scope, $http, UserService) {
 
+    .controller('userProfCtrl', function($scope, $http, UserService, $rootScope) {
         $scope.init = function () {
-            $http.get("https://www.omdbapi.com/?t=Star+Wars")
+        	$rootScope.uhid = UserService.getUser();
+            console.log("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/" + $rootScope.uhid);
+            $http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/" + $rootScope.uhid)
                 .then(function successCallback(response){
                     $scope.details = response.data;
-
+					$scope.guilds = response.data.guilds;
                 }, function errorCallback(response){
                     console.log("Unable to perform get request");
                 });
@@ -119,52 +171,10 @@ Roll4Guild
 			showMessagbox: false,
 		}
 
-		$scope.changeUser = function(){
-			UserService.setUser("Han Solo");
-            $scope.name = UserService.getUser();
-        }
-
-        $scope.getGroups = function() {
-            return [
-                {
-                    '_id': "001",
-                    'games': ["Pathfinder"],
-                    'name': "The Rebelz",
-                    'charter': "What is a charter?",
-                    'members': ["Luke Skywalker", "Princess Leia", "Han Solo"],
-                    'last_session': {"ts": "<timestamp", "game": "<game>"}
-                },
-                {
-                    '_id': "002",
-                    'games': ["D&D 3.5"],
-                    'name': "The Last Jedis",
-                    'charter': "What is a charter?",
-                    'members': ["Luke skywalker", "Rey"],
-                    'last_session': {"ts": "<timestamp", "game": "<game>"}
-                },
-            ];
-        }
-
-        $scope.getUsers = function(){
-			return [
-				{
-                    "_id": "<uhid>",
-                    "playername": "Luke Skywalker",
-                    "heroname" : "LastJedi2017",
-                    "games": ["Pathfinder, D&D3.5"],
-                    "companions": ["list", "of", "friends"],
-                    "guilds": ["The Rebelz", "The Last Jedis"],
-	 //the below are only returned if session token relates to hero requested (i.e. you request yourself)
-            		"email": "skywalker@skynet.com",
-               		 "guild_invites": ["guild", "ugids", "who", "invited", "hero"],
-               		 "requested_guilds": ["guild", "ugids", "hero", "request", "to join"],
-               		 "ucid": "<ucid>"
-				}
-			];
-		}
-
-
     })
+
+
+	
 	.controller('searchCtrl', function($scope, $http, $window, $rootScope, UserService, GroupService) {
         $scope.name = 'searchCtrl';
 
@@ -187,82 +197,74 @@ Roll4Guild
 
         $scope.init = function () {
 			// console.log("$rootScope.user.name", $rootScope.user.name);
-            $http.get("https://www.omdbapi.com/?t=Star+Wars")
-                .then(function successCallback(response){
-                    $scope.details = response.data;
 
-                }, function errorCallback(response){
-                    console.log("Unable to perform get request");
-                });
 			$scope.searchCriteria.mode = 'users';
 			for(var i in $rootScope.games) {
 				$scope.searchCriteria.games[$rootScope.games[i]] = false;
 			}
 			$scope.search();
-
-			// $rootScope.user['name'] = 'Elrond';
 		}
 
 		$scope.search = function() {
+			// get search results (i.e. relevant groups) from back-end
 			// get search results (i.e. relevant users) from back-end
-			this.getUsers = function() {
-				return [
-					{'_id': "1",
-					'games': ["Dungeons and Dragons","7 Wonders", "Magic the Gathering", "Coup"],
-					'heroname': "Gandalf",
-					'backstory': "The Grey Pilgrim. That is what they used to call me. Three hundred lives of men I've walked this earth and now, I have no time."},
-					{'_id': "2",
-					'games': ["Betrayal at the House on the Hill", "X-Wing", "Settlers of Catan", "7 Wonders", "Dead of Winter", "Coup"],
-					'heroname': "Bilbo",
-					'backstory': "He was hired by Thorin and Company to be their burglar in the Quest of Erebor, and later fought in the Battle of the Five Armies. Bilbo was also one of the bearers of the One Ring, and the first to voluntarily give it up, although with some difficulty. He wrote many of his adventures in a book he called There and Back Again. Bilbo adopted Frodo Baggins as his nephew after his parents, Drogo Baggins and Primula Brandybuck, drowned in the Brandywine River."},
-					{'_id': "3",
-					'games': ["7 Wonders", "Magic the Gathering", "Coup"],
-					'heroname': "Frodo",
-					'backstory': "I wander Middle Earth"},
-					{'_id': "4",
-					'games': ["7 Wonders", "Magic the Gathering", "Coup"],
-					'heroname': "Sam",
-					'backstory': "I wander Middle Earth"},
-					{'_id': "5",
-					'games': ["7 Wonders", "Betrayal at the House on the Hill", "Coup"],
-					'heroname': "Pippin",
-					'backstory': "I wander Middle Earth"},
-					{'_id': "6",
-					'games': ["7 Wonders", "Settlers of Catan", "Secret Hitler"],
-					'heroname': "Merriadoc",
-					'backstory': "I wander Middle Earth"},
-					{'_id': "7",
-					'games': ["7 Wonders", "Citadels", "Coup"],
-					'heroname': "Gimli",
-					'backstory': "I wander Middle Earth"},
-					{'_id': "8",
-					'games': ["7 Wonders", "Settlers of Catan", "Coup"],
-					'heroname': "Elrond",
-					'backstory': "I wander Middle Earth"},
-				];
+
+			this.updateResults = function(resultType) {
+				var users;
+				$http.get("http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/search/"+resultType)
+				.then(function successCallback(response){
+					$scope.results = response.data;
+				}, function errorCallback(response){
+					console.log("Unable to perform get request");
+					users = [
+						{'_id': "1",
+						'games': ["Dungeons and Dragons","7 Wonders", "Magic the Gathering", "Coup"],
+						'heroname': "Gandalf",
+						'backstory': "The Grey Pilgrim. That is what they used to call me. Three hundred lives of men I've walked this earth and now, I have no time."},
+						{'_id': "2",
+						'games': ["Betrayal at the House on the Hill", "X-Wing", "Settlers of Catan", "7 Wonders", "Dead of Winter", "Coup"],
+						'heroname': "Bilbo",
+						'backstory': "He was hired by Thorin and Company to be their burglar in the Quest of Erebor, and later fought in the Battle of the Five Armies. Bilbo was also one of the bearers of the One Ring, and the first to voluntarily give it up, although with some difficulty. He wrote many of his adventures in a book he called There and Back Again. Bilbo adopted Frodo Baggins as his nephew after his parents, Drogo Baggins and Primula Brandybuck, drowned in the Brandywine River."},
+						{'_id': "3",
+						'games': ["7 Wonders", "Magic the Gathering", "Coup"],
+						'heroname': "Frodo",
+						'backstory': "I wander Middle Earth"},
+						{'_id': "4",
+						'games': ["7 Wonders", "Magic the Gathering", "Coup"],
+						'heroname': "Sam",
+						'backstory': "I wander Middle Earth"},
+						{'_id': "5",
+						'games': ["7 Wonders", "Betrayal at the House on the Hill", "Coup"],
+						'heroname': "Pippin",
+						'backstory': "I wander Middle Earth"},
+						{'_id': "6",
+						'games': ["7 Wonders", "Settlers of Catan", "Secret Hitler"],
+						'heroname': "Merriadoc",
+						'backstory': "I wander Middle Earth"},
+						{'_id': "7",
+						'games': ["7 Wonders", "Citadels", "Coup"],
+						'heroname': "Gimli",
+						'backstory': "I wander Middle Earth"},
+						{'_id': "8",
+						'games': ["7 Wonders", "Settlers of Catan", "Coup"],
+						'heroname': "Elrond",
+						'backstory': "I wander Middle Earth"},
+					];
+				});
+				return users;
 			}
 
-			// get search results (i.e. relevant groups) from back-end
-			this.getGroups = function() {
-				return [
-					{'_id': "001",
-					'games': ["Coup", "Magic the Gathering", "Citadels"],
-					'name': "Shirelings",
-					'charter': "What is a charter?",
-					'members': ["list", "of", "members"],
-					'last_session': {"ts": "<timestamp", "game": "<game>"}
-				},
-			];
-		}
 
 			switch($scope.searchCriteria.mode) {
 				case 'users':
-					$scope.results = this.getUsers();
+					$scope.results = this.updateResults('heros');
+					// console.log($scope.results);
 					break;
 				case 'groups':
-					$scope.results = this.getGroups();
+					$scope.results = this.updateResults('guilds');
 					break;
 			}
+
 		}
 
 		$scope.visitUserProfile = function(user){
@@ -603,7 +605,58 @@ Roll4Guild
                 });
         };
     })
-    .controller('editProfCtrl', function($scope, $http, $rootScope) {
+
+
+    .controller('editProfCtrl', function($scope, $http, $rootScope, UserService, $window) {
+
+    	// On Load we want to grab the array of games for the checkbox list, then initialize some scope variables
+		// to be used later
+    	window.onload = function() {
+            $scope.games = $rootScope.games;
+            $scope.send = {
+            	"email": "",
+				"key": "",
+				"playername": "",
+				"heroname": "",
+				"games":[],
+				"backstory":""
+			};
+            $scope.played = [];
+        };
+
+
+		// Creates the array of games then Posts to the Databse.  If the hero is created successfully
+		// then route to that users newly minted profile
+        $scope.onSubmit = function(){
+			var i = 0;
+        	for(var j = 0; j < $scope.played.length; j++){
+				if($scope.played[j] != null){
+					$scope.send.games[i] = $scope.played[j];
+					i++;
+				}
+			}
+            $scope.data = JSON.stringify($scope.send);
+
+            $http({
+                method: 'POST',
+                url: 'http://citygate-1.mvmwp5wpkc.us-west-2.elasticbeanstalk.com/hero/create',
+                data: $scope.send,
+                headers : {
+                    'Content-Type': 'text/plain'
+                }
+            }).then(function mySucces(response) {
+                $rootScope.uhid = response.data.uhid;
+                $window.location = 'userProfile.html';
+                UserService.setUser($rootScope.uhid);
+            }, function myError(response) {
+                console.log("LOL");
+            });
+        };
+    })
+
+
+    .controller('editGuildCtrl', function($scope, $http, $rootScope) {
+
 		window.onload = function() {
             $scope.games = $rootScope.games;
         };
@@ -646,7 +699,9 @@ Roll4Guild
 	})
 
 	Roll4Guild
-	.filter('SearchFilter', function(filterFilter) {
+
+	.filter('SearchFilter', function(filterFilter, numberFilter) {
+
 		return function(results, searchCriteria) {
 			function meetsGameCriteria(result) {
 				var games = searchCriteria.getGames();
@@ -661,7 +716,9 @@ Roll4Guild
 				return true;
 			}
 			function meetsDistanceCriteria(result) {
-				return true;
+
+				return searchCriteria.maxDistance? numberFilter(result.distance, 1) <= numberFilter(searchCriteria.maxDistance, 4) : true;
+
 			}
 			function filterByTextualQuery(filteredResults) {
 				return filterFilter(filteredResults, searchCriteria.textualQuery);

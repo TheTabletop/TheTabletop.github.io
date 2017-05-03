@@ -98,20 +98,23 @@ th, td {
 <span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
 
   <div class="w3-center">
-    <h1>{{details.Title}}</h1>
+
+    <h1>{{details.playername}}</h1>
   </div>
   <div class="w3-center">
     <button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
-    <button class="button button3" ng-click="changeUser()">Invite to Group</button>
+    <button class="button button3" ng-click="">Invite to Group</button>
+
   </div>
 
   <div class="w3-cell-row">
    <div class="w3-cell">
-     <img ng-src="{{ details.Poster=='N/A' ? 'http://placehold.it/150x220&text=N/A' : details.Poster }}">
+
+     <img ng-src="http://cdn.akc.org/corgi-4.jpg">
    </div>
 
    <div class="w3-container w3-cell w3-cell-middle">
-     <h2>{{name}}'s Hero Stats</h2>
+     <h2>{{details.heroname}}'s Hero Stats</h2>
 
     <table class="w3-table-all w3-hoverable">
       <thead>
@@ -130,7 +133,9 @@ th, td {
       </tr>
       <tr>
         <td>Quest Log</td>
-        <td>{{details.Plot}}</td>
+
+        <td>Nothing lol</td>
+
       </tr>
       <tr>
         <td>Die of Choice</td>
@@ -152,13 +157,15 @@ th, td {
         <th>Guild Link</th>
       </tr>
       </thead>
-        <tr ng-repeat="result in results">
-          <th>{{result.name}}</th>
-          <th>{{result.charter}}</th>
+
+        <tr ng-repeat="guild in guilds">
+          <th>{{guild}}</th>
+         <!-- <th>{{result.charter}}</th>
           <th>{{result.games[0]}}</th>
           <th>
             <a href="groupProfile.html">Visit their Notice Board!</a>
-          </th>
+          </th> -->
+
         </tr>
 
     </table>
@@ -168,7 +175,8 @@ th, td {
 
 
 
-<div ng-include="'../partials/messagePopup.html'" ng-if="popups.showMessagbox" onload="recipient=hero" style="position:absolute; top:15vh; left:25vw;"></div>
+<div ng-include="'../partials/messagePopup.html'" ng-if="popups.showMessagbox" onload="recipient.name=hero" style="position:absolute; top:15vh; left:25vw;"></div>
+
 
 </div>
 
