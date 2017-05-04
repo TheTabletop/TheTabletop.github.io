@@ -3,45 +3,50 @@
 <html lang="en" ng-app="Roll4Guild">
 <style>
 form {
-    border: 3px solid #f1f1f1;
+	border: 3px solid #f1f1f1;
 }
 
-input[type=text], input[type=password] {
-    width: 100%;
-    padding: 12px 20px;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
+input[type=text] {
+	padding: 12px 20px;
+	margin: 8px 0;
+	box-sizing: border-box;
 }
 
+input[type=text] {
+	width: 100%;
+}
+input[type=number] {
+	width: 10%;
+	text-align: center;
+	-moz-appearance: textfield;
+}
 button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
+	background-color: #4CAF50;
+	color: white;
+	padding: 14px 20px;
+	margin: 8px 0;
+	border: none;
+	cursor: pointer;
+	width: 100%;
 }
 
 button:hover {
-    opacity: 0.8;
+	opacity: 0.8;
 }
 
 .cancelbtn {
-    width: 100%;
-    padding: 10px 18px;
-    background-color: #f44336;
+	width: 100%;
+	padding: 10px 18px;
+	background-color: #f44336;
 }
 
 .container {
-    padding: 16px;
+	padding: 16px;
 }
 
 span.psw {
-    float: right;
-    padding-top: 16px;
+	float: right;
+	padding-top: 16px;
 }
 
 h2{
@@ -51,13 +56,13 @@ h2{
 
 /* Change styles for span and cancel button on extra small screens */
 @media screen and (max-width: 300px) {
-    span.psw {
-       display: block;
-       float: none;
-    }
-    .cancelbtn {
-       width: 100%;
-    }
+	span.psw {
+	   display: block;
+	   float: none;
+	}
+	.cancelbtn {
+	   width: 100%;
+	}
 }
 </style>
 <head>
@@ -72,47 +77,70 @@ h2{
 	<script src="../../scripts/app.js"></script>
 </head>
 
-<body ng-controller="editGuildCtrl">
+<body ng-controller="editGroupCtrl">
+	<div ng-init="init()"></div>
+
 	<!-- <script src="js/scripts.js"></script> -->
 	<div id="navigation"></div>
 	<div class="main_content"></div>
 
-	<h2>Create your Guild!</h2>
+	<h2>Create a new Guild!</h2>
 
-	<form action="/action_page.php">
-	  <div class="container">
+	<form>
+		<div class="container">
+			<label><b>Name</b></label>
+			<input type="text" placeholder="Give your new guild a name!"  ng-model="send.guildname" required>
+
+			<label><b>Charter</b></label>
+			<input type="text" placeholder="Tell people something interesting about your guild"  ng-model="send.charter" required>
+
+			<label><b>Location</b> (Only visible to members of this guild)</label>
+			<input type="text" placeholder="Choose the default gathering spot" ng-model="send.location">
+
+			<!-- <fieldset>
+				<legend><b>Next Session</b> (Optional, only visible to members of this guild)</legend>
+
+				<label><b>Location</b></label>
+				<input type="text" placeholder="Where will members of your guild meet?"  ng-model="send.session.location">
 
 
-	    <label><b>Guild Name</b></label>
-	    <input type="text" placeholder="Enter Guild Name" name="uname" required>
+				<label><b>Game</b></label>
+				<select>
+					<option ng-repeat="game in games">
+						{{game}}
+					</option>
+				</select>
 
+				<input type="datetime-local"/>
 
-	    <label><b>Password</b></label>
-	    <input type="password" placeholder="Enter Password"  ng-model="psw" required>
+			</fieldset> -->
 
-	   	<label><b>Email</b></label>
-	    <input type="text" placeholder="For recovery only"  ng-model="email" required>
+			<!-- <label><b>Day</b></label>
+			<select>
+				<option value="{{day}}" ng-repeat="day in days">
+					{{day}}
+				</option>
+			</select> -->
 
-	    <label><b>Games you play (Select all that Apply)</b></label>
-		 <br>
-		  <br>
-		  <label ng-repeat="game in games">
-		  <input type="checkbox" name="{{game}}" value="{{game}}">
-			 {{game}}
-		  </label>
-		  <br>
-		  <br>
+			<br>
+			<label><b>Games you play</b> (Select all that Apply)</label>
+				<br>
+				<label ng-repeat="game in games">
+					<input type="checkbox" ng-model="played[$index]" ng-true-value="'{{game}}'" ng-false-value="''">
+					{{game}}
+				</label>
 
-	    <label><b>Bio (Optional)</b></label>
+			<!-- <label><b>Currently looking for companions?</b></label>
+			<input type="checkbox" ng-model="send.searchable" style=""> -->
 
-	    <input type="text" placeholder="Tell everyone about your guild!"  ng-model="bio">
-	        
-	    <button type="submit" ng-click="onSubmit()">Create</button>
+			<!-- <label><b>Max. number companions</b></label>
+			<input type="number" min="0"  placeholder="&infin;" ng-model="send.session.maxNumMembers"> -->
 
-	    <button type="button" class="cancelbtn" onclick="window.location='../../index.html';return false;">Cancel</button>
-	  </div>
-	  <div class="container" style="background-color:#f1f1f1">
-	  </div>
+			<button type="submit" ng-click="onSubmit()">Submit</button>
+			<button type="button" class="cancelbtn" onclick="window.location='../../index.html';return false;">Cancel</button>
+			</div>
+			<div class="container" style="background-color:#f1f1f1">
+		</div>
 	</form>
 
 </body>

@@ -89,6 +89,7 @@ th, td {
 <div data-ng-init="init()"></div>
 
 
+
 <div id="includedContent"></div>
 
 
@@ -98,11 +99,11 @@ th, td {
 <span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
 
   <div class="w3-center">
-    <h1>{{details.playername}}</h1>
+    <h1>{{playername}}</h1>
   </div>
   <div class="w3-center">
     <button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
-    <button class="button button3" ng-click="">Invite to Group</button>
+    <button class="button button3" ng-click="testAgain()">Invite to Group</button>
   </div>
 
   <div class="w3-cell-row">
@@ -111,7 +112,7 @@ th, td {
    </div>
 
    <div class="w3-container w3-cell w3-cell-middle">
-     <h2>{{details.heroname}}'s Hero Stats</h2>
+     <h2>{{heroname}}'s Hero Stats</h2>
 
     <table class="w3-table-all w3-hoverable">
       <thead>
@@ -120,17 +121,17 @@ th, td {
         <th>Hero Stats</th>
       </tr>
       </thead>
-      <tr>
+      <!-- <tr>
         <td>Location</td>
         <td>Tatooine</td>
-      </tr>
+      </tr> -->
       <tr>
         <td>Games Played</td>
-        <td>Pathfinder, Dungeons and Dragons 3.5ed</td>
+        <td>{{games.join(', ')}}</td>
       </tr>
       <tr>
         <td>Quest Log</td>
-        <td>Nothing lol</td>
+        <td>{{backstory}}</td>
       </tr>
       <tr>
         <td>Die of Choice</td>
@@ -147,18 +148,18 @@ th, td {
       <thead>
       <tr class="w3-light-grey">
         <th>Guild Name</th>
-        <th>Guild Location</th>
+        <th>Guild Charter</th>
         <th>Guild System</th>
         <th>Guild Link</th>
       </tr>
       </thead>
-        <tr ng-repeat="guild in guilds">
-          <th>{{guild}}</th>
-         <!-- <th>{{result.charter}}</th>
-          <th>{{result.games[0]}}</th>
+        <tr ng-repeat="playerGuild in playerGuilds">
+           <th>{{playerGuild.guildname}}</th>
+          <th>{{playerGuild.charter}}</th>
+          <th>{{playerGuild.games.join(', ')}}</th>
           <th>
-            <a href="groupProfile.html">Visit their Notice Board!</a>
-          </th> -->
+            <button ng-click="toGuild(playerGuild.ugid)">Visit their Notice Board!</button>
+          </th>
         </tr>
 
     </table>

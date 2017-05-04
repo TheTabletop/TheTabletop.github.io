@@ -86,7 +86,7 @@ input[type=number] {
 				<div class="filterLabel">Max. distance:</div>
 				<div class="filterBody">
 					<div>
-						<input type="text" placeholder="&infin;" style="width:50px;" ng-model="searchCriteria.maxDistance"/>
+						<input type="text" placeholder="&infin;" style="width:50px; text-align: center;" ng-model="searchCriteria.maxDistance"/>
 						miles
 					</div>
 				</div>
@@ -101,14 +101,14 @@ input[type=number] {
 			<div class="filter" ng-if="searchCriteria.mode=='groups'">
 				<div class="filterLabel">Group size:</div>
 				<div class="filterBody">
-					<input type="number" min="1" placeholder="1" ng-model="searchCriteria.minNumMembers">
+					<input type="number" min="0" placeholder="1" ng-model="searchCriteria.minNumMembers">
 					<span><em>to</em></span>
-					<input type="number" min="1"  placeholder="&infin;" ng-model="searchCriteria.maxNumMembers">
+					<input type="number" min="0"  placeholder="&infin;" ng-model="searchCriteria.maxNumMembers">
 					<span>members</span>
 				</div>
 			</div>
 			<div class="filter">
-				<div class="filterLabel">General search</div>
+				<div class="filterLabel">General search:</div>
 				<div class="filterBody">
 					<input type="search" placeholder="e.g. a name..." ng-model="searchCriteria.textualQuery"/>
 				</div>
@@ -117,21 +117,21 @@ input[type=number] {
 
 		<div id="searchResults" class="" style="position:absolute; left:250px; max-height:100%; margin:1%;">
 			<div class="results scrollVertical roundBorder" ng-repeat="result in results | SearchFilter : searchCriteria">
-				<a class="result" href="#" ng-if="searchCriteria.mode==='users'" ng-click="visitUserProfile(result.heroname)">
+				<a class="result" href="#" ng-if="searchCriteria.mode==='users'" ng-click="UserService.visitUserProfile(result.uhid)">
 					<div>
 						<h2>{{result.heroname}}</h2>
 						<p>({{result.distance | number:1}} miles away)</p>
 						<ul>
-							<li ng-repeat="game in result.games.slice(0,3)">{{game}}</li>
+							<li ng-repeat="game in result.games | RemoveEmpty | orderBy">{{game}}</li>
 						</ul>
 					</div>
 				</a>
-				<a class="result" href="#" ng-if="searchCriteria.mode==='groups'" ng-click="visitGroupProfile(result.name)">
+				<a class="result" href="#" ng-if="searchCriteria.mode==='groups'" ng-click="GroupService.visitGroupProfile(result.ugid)">
 					<div>
-						<h2>{{result.name}}  ({{result.members.length}})</h2>
+						<h2>{{result.guildname}}  ({{result.members.length}})</h2>
 						<p>({{result.distance | number:1}} miles away)</p>
 						<ul>
-							<li ng-repeat="game in result.games.slice(0,3)">{{game}}</li>
+							<li ng-repeat="game in result.games | RemoveEmpty | orderBy">{{game}}</li>
 						</ul>
 					</div>
 				</a>

@@ -95,20 +95,19 @@ th, td {
   <span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
 
  <div class="w3-container w3-green w3-margin w3-center">
-  <h1>{{details.Title}}</h1>
+  <h1>{{guildData.guildname}}</h1>
  </div>
 
   <div class="w3-cell-row">
     <div class="w3-cell-middle w3-panel w3-border-top w3-border-bottom w3-border-green w3-center">
-      <img src="http://orig09.deviantart.net/9858/f/2012/123/e/6/star_wars_as_rock_band_by_microkey-d4yehqv.jpg" alt= "Group Photo" width="300" height="300">
+      <img src="http://20tvni1sjxyh352kld2lslvc.wpengine.netdna-cdn.com/wp-content/uploads/2016/10/software-Testing.png" alt= "Group Photo" width="300" height="300">
     </div>
     <div class="w3-cell-bottom">
       <button class="button button2" ng-click="popups.showMessagbox = true">Message</button>
-      <button class="button button3" ng-click="getCurrentUser()">Get User</button>
+      <button class="button button3" ng-click="">Request To Join</button>
     </div>
   </div>
 
-  <p>{{name}}</p>
 
   <div class="w3-container">
     <h2>Guild Members</h2>
@@ -116,31 +115,19 @@ th, td {
     <table class="w3-table-all w3-hoverable">
       <thead>
       <tr class="w3-light-grey">
-        <th>Hero</th>
-        <th>Character</th>
-        <th>Favorite Die</th>
+        <th>User</th>
+        <th>Hero Name</th>
+        <th>Backstory</th>
         <th>Profile</th>
       </tr>
       </thead>
-      <tr>
-        <td>Mark Hamill</td>
-        <td>Luke Skywalker</td>
-        <td>d20</td>
-        <td>
-          <a href="userProfile.html">Profile</a>
-        </td>
-      </tr>
-      <tr>
-        <td>Carrie Fisher</td>
-        <td>Princess Leia</td>
-        <td>d12</td>
-        <td>N/A</td>
-      </tr>
-      <tr>
-        <td>Harrison Ford</td>
-        <td>Han Solo</td>
-        <td>d2</td>
-        <td>The TableTop Rules</td>
+      <tr ng-repeat="player in players">
+        <th>{{player.playername}}</th>
+        <th>{{player.heroname}}</th>
+        <th>{{player.backstory}}</th>
+        <th>
+          <button ng-click="toUser(player.uhid)">Visit their Notice Board!</button>
+        </th>
       </tr>
     </table>
   </div>
@@ -151,28 +138,24 @@ th, td {
       <thead>
       <tr class="w3-light-grey">
         <th>Guild Info</th>
-        <th>Modus Operandi</th>
+        <th>{{guildData.charter}}</th>
       </tr>
       </thead>
       <tr>
         <td>Meeting Location</td>
-        <td>Yavin 4</td>
+        <td>{{guildData.address}}</td>
       </tr>
       <tr>
         <td>Games Played</td>
-        <td>Dungeons and Dragons 3.5ed, Star Wars Homebrew</td>
+        <td>{{guildData.games.join(', ')}}</td>
       </tr>
       <tr>
         <td>Next Meeting</td>
-        <td>12/16/2017</td>
+        <td>{{guildData.future_sessions.join(', ')}}</td>
       </tr>
       <tr>
-        <td>Meeting Frequency</td>
-        <td>Every Holiday</td>
-      </tr>
-      <tr>
-        <td>Admins</td>
-        <td>Darth Vader</td>
+        <td>Previous Sessions</td>
+        <td>{{guildData.previous_sessions.join(', ')}}</td>
       </tr>
     </table>
   </div>

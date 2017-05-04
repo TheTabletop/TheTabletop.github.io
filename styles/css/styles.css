@@ -165,7 +165,7 @@ form {
 label {
 	color: #555;
 	display: inline-block;
-	margin-left: 18px;
+	/*margin-left: 18px;*/
 	padding-top: 10px;
 	font-size: 14px;
 }
@@ -176,6 +176,7 @@ input {
 }
 input[type=text],
 input[type=search],
+input[type=number],
 input[type=password] {
 	color: #777;
 	padding-left: 10px;
@@ -194,12 +195,14 @@ input[type=password] {
 	}
 input[type=text]:hover,
 input[type=search]:hover,
+input[type=number]:hover,
 input[type=password]:hover {
 	border: 1px solid #b6bfc0;
 	box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .7), 0 0 0 5px #f5f7f8;
 }
 input[type=text]:focus,
 input[type=search]:focus,
+input[type=number]:focus,
 input[type=password]:focus {
 	border: 1px solid #a8c9e4;
 	box-shadow: inset 0 1.5px 3px rgba(190, 190, 190, .4), 0 0 0 5px #e6f2f9;

@@ -82,11 +82,11 @@ h2{
 	<form>
 	  <div class="container">
 
-		  <label><b>Name</b></label>
-		  <input type="text" placeholder="Enter Username"  ng-model="send.heroname" required>
+		  <label><b>Hero Name</b></label>
+		  <input type="text" placeholder="Enter a username (e.g. Batman)"  ng-model="send.heroname" required>
 
-	    <label><b>Hero Name</b></label>
-	    <input type="text" placeholder="Enter Hero Name" ng-model="send.playername" required>
+	    <label><b>Name</b></label>
+	    <input type="text" placeholder="Enter your actual name (e.g. Bruce Wayne)" ng-model="send.playername" required>
 
 	    <label><b>Password</b></label>
 	    <input type="password" placeholder="Enter Password" ng-model="send.key" required>
@@ -107,7 +107,6 @@ h2{
 	    <label><b>Bio (Optional)</b></label>
 	    <input type="text" placeholder="Tell everyone about yourself!" ng-model="send.backstory">
 
-		  <button type="button" ng-click="testGames()">Test</button>
 	    <button type="submit" ng-click="onSubmit()">Login</button>
 	    <button type="button" class="cancelbtn" onclick="window.location='../../index.html';return false;">Cancel</button>
 	  </div>

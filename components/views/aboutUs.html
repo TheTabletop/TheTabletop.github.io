@@ -2,15 +2,15 @@
 <html ng-app="Roll4Guild">
 <head>
 <title>About Us</title>
-<link rel="stylesheet" href="../../styles/css/styles.css">
+	<link rel="stylesheet" href="../../styles/css/styles.css">
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
     <script src="../../scripts/app.js"></script>
-
     <script>
         $(function(){
             $("#includedContent").load("generalNav.html");
@@ -18,13 +18,40 @@
     </script>
 
     <style>
-body {
-
+.rainbow {
+  background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+  background-image: gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+  color:transparent;
+  font-family: "Times New Roman";
+  -webkit-background-clip: text;
+  background-clip: text;
 }
-h1 {
 
-}
+	body {
 
+	}
+	h1 {
+
+	}
+	p1 {
+		font-family: "Comic Sans MS";
+	}
+	p2 {
+		font-family: "Arial Black";
+	}
+	p3 {
+		font-family: "Impact";
+	}
+	p4 {
+		font-family: "Lucida Console";
+	}
+	p5 {
+		font-family: "Wingdings";
+	}
+
+	p27 {
+		font-family: "Times New Roman";
+	}
 </style>
 </head>
 <body ng-controller="aboutCtrl">
@@ -34,8 +61,26 @@ h1 {
 <div id="main">
     <span ng-controller="navCtrl" style="font-size:30px;cursor:pointer" ng-click="openNav()">&#9776; Navigation</span>
     <h1>About Us</h1>
-    <p>    Initially formed for a small software engineering project, the Tabletop team is a small group of dedicated programmers working to ensure that fewer people undergo the frustration of finding a local group to play tabletop games with.</p>
-    <p><b>Individual bios/pictures?</b> Seems a bit overboard until we take off.</p>
+    <img src="../../resources/img/DRL.gif" alt="lolol" style="float:right;" width="421" height="384">
+    <p>Have you ever been excited to play a tabltop game, but were unable to find a group of people to play with?</p>
+    <p>Are you tired of the endless flood of emails and messages that it takes to organize your weekly sessions?</p>
+    <p>Trying to expand your group and add a few new players?</p>
+    <p>We understand your pain.</p>
+    <p>Like, so much.</p>
+    <p>Finding people in your area? Gotcha covered.</p>
+    <p>Setting up meeting times? Done.</p>
+    <p>Group and individual messaging? Easy breezy.</p>
+    <p>No matter where you decide to take your adventures, we've got your back.</p>
+    <p>Current Team:</p>
+    <p1 style="color:hotpink;"><i>Backend Lead: Thomas Quigley Malcom</i></p1>
+    <p>Backend Architect: Logan Colla</p>
+    <p3><b>Backend Design: Jake Adams</b></p3><br>
+    <p2 style="color:turquoise;">Frontend Lead: Gunnar Sroka</p2><br>
+    <p4>Frontend Artist: Chris Gottsacker</p4><br>
+    <div><span class="rainbow">Frontend Specialist: Quinn Mettel</span></div>
+    <p5 style="color:red;">Encompassing Programming: Alex Huang</p5>
+
+
 
 
 </div>
